@@ -1,0 +1,49 @@
+﻿@model ML.Usuario
+@{
+    ViewBag.Title = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<h2>GetAll</h2>
+
+<table class="table" id="tableUsuario">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Apellido Paterno</th>
+            <th scope="col">Apellido Materno</th>
+            <th scope="col">Fecha Nacimiento</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (ML.Usuario usuario in Model.Usuarios)
+        {
+            <tr>
+                <th scope="row">@usuario.IdUsuario</th>
+                <td>@usuario.Nombre</td>
+                <td>@usuario.ApellidoPaterno</td>
+                <td>@usuario.ApellidoMaterno</td>
+                <td>@usuario.FechaNacimiento</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@Scripts.Render("~/bundles/jquery")
+
+<link rel="stylesheet" href="https://cdn.datatables.net/2.1.5/css/dataTables.dataTables.css" />
+<script src="https://cdn.datatables.net/2.1.5/js/dataTables.js"></script>
+<script>
+    let table = new DataTable('#tableUsuario', {
+        // config options...
+        "pageLength": 5,  // Valor por defecto
+        "lengthMenu": [[5, 10, 20, -1], [5, 10, 20, "Todos"]],
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.13.1/i18n/es-MX.json"
+        }
+    });
+</script>
