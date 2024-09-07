@@ -8,14 +8,14 @@ namespace BL
 {
     public class Usuario
     {
-        public static ML.Result GetAll()
+        public static ML.Result GetAll(int start, int length)
         {
             ML.Result result = new ML.Result();
             try
             {
                 using (DL.JGuevaraProgramacionNCapasEntities context = new DL.JGuevaraProgramacionNCapasEntities())
                 {
-                    var query = context.UsuarioGetAll().ToList();
+                    var query = context.UsuarioGetAll(start, length).ToList();
 
                     if (query != null)
                     {
@@ -52,5 +52,29 @@ namespace BL
 
             return result;
         }
+
+        public static ML.Result Count()
+        {
+			ML.Result result = new ML.Result();
+			try
+			{
+				using (DL.JGuevaraProgramacionNCapasEntities context = new DL.JGuevaraProgramacionNCapasEntities())
+				{
+					// Contar el número total de registros en la entidad Usuarios
+					int totalCount = context.Usuarios.Count();
+
+					result.Correct = true;
+					result.Objects = new List<object> { totalCount };  // Almacenar el conteo total en Objects
+				}
+			}
+			catch (Exception ex)
+			{
+				result.Correct = false;
+				result.ErrorMessage = ex.Message;
+				result.Ex = ex;
+			}
+
+			return result;
+		}
     }
 }
