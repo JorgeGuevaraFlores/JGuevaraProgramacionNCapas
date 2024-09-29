@@ -6,37 +6,46 @@
 
 
 
-<h2>GetAll</h2>
+<h1>Usuarios</h1>
+<h3>Listado de los usuarios en el sistema</h3>
+<hr />
+<div class="container">
+    <div class="row">
+        <div class="col">
 
-<table class="table" id="tableUsuario">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Apellido Paterno</th>
-            <th scope="col">Apellido Materno</th>
-            <th scope="col">Fecha Nacimiento</th>
-        </tr>
-    </thead>
-    <tbody>
+            <table class="table" id="tableUsuario">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col" class="text-center">Nombre</th>
+                        <th scope="col" class="text-center">Apellido Paterno</th>
+                        <th scope="col" class="text-center">Apellido Materno</th>
+                        <th scope="col" class="text-center">Fecha Nacimiento</th>
+                    </tr>
+                </thead>
+                <tbody>
 
-        @*@foreach (ML.Usuario usuario in Model.Usuarios)
-            {
-                <tr>
-                    <th scope="row">@usuario.IdUsuario</th>
-                    <td>@usuario.Nombre</td>
-                    <td>@usuario.ApellidoPaterno</td>
-                    <td>@usuario.ApellidoMaterno</td>
-                    <td>@usuario.FechaNacimiento</td>
-                </tr>
-            }*@
-    </tbody>
-</table>
+                    @*@foreach (ML.Usuario usuario in Model.Usuarios)
+                        {
+                            <tr>
+                                <th scope="row">@usuario.IdUsuario</th>
+                                <td>@usuario.Nombre</td>
+                                <td>@usuario.ApellidoPaterno</td>
+                                <td>@usuario.ApellidoMaterno</td>
+                                <td>@usuario.FechaNacimiento</td>
+                            </tr>
+                        }*@
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
 @Scripts.Render("~/bundles/jquery")
 
 <link rel="stylesheet" href="https://cdn.datatables.net/2.1.7/css/dataTables.dataTables.min.css" />
 <script src="https://cdn.datatables.net/2.1.7/js/dataTables.min.js"></script>
+<link rel="stylesheet" href="~/Content/css/Pagination/styles.css" />
 <script>
 $(document).ready(function () {
     let table = new DataTable('#tableUsuario', {
@@ -62,6 +71,13 @@ $(document).ready(function () {
             { "data": "ApellidoPaterno", "name":"ApellidoPaterno", "autoWidth":true},
             { "data": "ApellidoMaterno", "name":"ApellidoMaterno", "autoWidth":true},
             { "data": "FechaNacimiento", "name":"FechaNacimiento", "autoWidth":true}
+        ],
+        "columnDefs": [
+            {
+                targets: 0, //oculta el id del usuario
+                visible: false
+            }
+            //{ "className": "text-center", "targets": "_all" }
         ]
     });
 });

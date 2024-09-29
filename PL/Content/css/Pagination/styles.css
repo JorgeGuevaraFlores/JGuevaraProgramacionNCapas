@@ -1,0 +1,43 @@
+﻿/* Cambiar el fondo de las filas */
+#tableUsuario tbody tr {
+    background-color: #f5f5f5;
+}
+
+/* Cambiar el color del texto de las celdas */
+#tableUsuario tbody td {
+    color: #333;
+    padding: 10px; /* Aumentar el padding de las celdas */
+}
+
+/* Cambiar el estilo de los encabezados */
+#tableUsuario thead th {
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    border: 2px solid black;
+}
+
+/* Cambiar el color del borde de las tablas */
+#tableUsuario {
+    border: 1px solid #ddd;
+}
+
+    /* Cambiar el color al hacer hover sobre las filas */
+    #tableUsuario tbody tr:hover {
+        background-color: #e0e0e0;
+    }
+
+/* Estilos para la paginación */
+.dataTables_paginate .paginate_button {
+    background-color: #4CAF50;
+    color: white;
+    margin: 2px;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+    .dataTables_paginate .paginate_button:hover {
+        background-color: #45a049;
+        color: white;
+    }
