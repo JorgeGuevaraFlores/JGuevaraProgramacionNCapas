@@ -16,10 +16,7 @@
           <Property Name="FechaNacimiento" Type="date" />
           <Property Name="Status" Type="bit" />
         </EntityType>
-        <Function Name="UsuarioGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="Start" Type="int" Mode="In" />
-          <Parameter Name="Length" Type="int" Mode="In" />
-        </Function>
+        <Function Name="UsuarioGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="JGuevaraProgramacionNCapasModelStoreContainer">
           <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
@@ -40,10 +37,7 @@
         </EntityType>
         <EntityContainer Name="JGuevaraProgramacionNCapasEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Usuarios" EntityType="Self.Usuario" />
-          <FunctionImport Name="UsuarioGetAll" ReturnType="Collection(JGuevaraProgramacionNCapasModel.UsuarioGetAll_Result)">
-            <Parameter Name="Start" Mode="In" Type="Int32" />
-            <Parameter Name="Length" Mode="In" Type="Int32" />
-          </FunctionImport>
+          <FunctionImport Name="UsuarioGetAll" ReturnType="Collection(JGuevaraProgramacionNCapasModel.UsuarioGetAll_Result)" />
         </EntityContainer>
         <ComplexType Name="UsuarioGetAll_Result">
           <Property Type="Int32" Name="IdUsuario" Nullable="false" />

@@ -1,4 +1,4 @@
-﻿@model ML.Usuario
+﻿
 @{
     ViewBag.Title = "GetAll";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -20,42 +20,51 @@
     </thead>
     <tbody>
 
-        @foreach (ML.Usuario usuario in Model.Usuarios)
-        {
-            <tr>
-                <th scope="row">@usuario.IdUsuario</th>
-                <td>@usuario.Nombre</td>
-                <td>@usuario.ApellidoPaterno</td>
-                <td>@usuario.ApellidoMaterno</td>
-                <td>@usuario.FechaNacimiento</td>
-            </tr>
-        }
+        @*@foreach (ML.Usuario usuario in Model.Usuarios)
+            {
+                <tr>
+                    <th scope="row">@usuario.IdUsuario</th>
+                    <td>@usuario.Nombre</td>
+                    <td>@usuario.ApellidoPaterno</td>
+                    <td>@usuario.ApellidoMaterno</td>
+                    <td>@usuario.FechaNacimiento</td>
+                </tr>
+            }*@
     </tbody>
 </table>
 
 @Scripts.Render("~/bundles/jquery")
 
-<link rel="stylesheet" href="https://cdn.datatables.net/2.1.5/css/dataTables.dataTables.css" />
-<script src="https://cdn.datatables.net/2.1.5/js/dataTables.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/2.1.7/css/dataTables.dataTables.min.css" />
+<script src="https://cdn.datatables.net/2.1.7/js/dataTables.min.js"></script>
 <script>
+$(document).ready(function () {
     let table = new DataTable('#tableUsuario', {
-        // config options...
+        "processing": true,
         "serverSide": true,
-        "pageLength": 5,  // Valor por defecto
-        "lengthMenu": [[5, 10, 20, -1], [5, 10, 20, "Todos"]],
-        "ajax": {
-            "url": "/Usuario/GetAll",
-            "type": "POST"
-        },
-        "columns": [
-            { "data": "IdUsuario" },
-            { "data": "Nombre" },
-            { "data": "ApellidoPaterno" },
-            { "data": "ApellidoMaterno" },
-            { "data": "FechaNacimiento" }
-        ],
         "language": {
-            "url": "//cdn.datatables.net/plug-ins/1.13.1/i18n/es-MX.json"
-        }
+            url: '//cdn.datatables.net/plug-ins/2.1.7/i18n/es-MX.json',
+        },
+        "ajax": {
+            "url": "@Url.Action("Pagination", "Usuario")",
+            "type": "POST",
+            "dataType" : "JSON"
+        },
+        "pageLength": 5,
+        "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "Todos"]],
+        "filter": false,
+        "responsivePriority": 1,
+        "data": null,
+        "filter" : true,
+        "columns": [
+            {"data": "IdUsuario", "name":"IdUsuario", "autoWidth":true},
+            { "data": "Nombre", "name":"Nombre", "autoWidth":true},
+            { "data": "ApellidoPaterno", "name":"ApellidoPaterno", "autoWidth":true},
+            { "data": "ApellidoMaterno", "name":"ApellidoMaterno", "autoWidth":true},
+            { "data": "FechaNacimiento", "name":"FechaNacimiento", "autoWidth":true}
+        ]
     });
+});
+
+
 </script>

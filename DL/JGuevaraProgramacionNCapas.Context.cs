@@ -29,17 +29,9 @@ namespace DL
     
         public virtual DbSet<Usuario> Usuarios { get; set; }
     
-        public virtual ObjectResult<UsuarioGetAll_Result> UsuarioGetAll(Nullable<int> start, Nullable<int> length)
+        public virtual ObjectResult<UsuarioGetAll_Result> UsuarioGetAll()
         {
-            var startParameter = start.HasValue ?
-                new ObjectParameter("Start", start) :
-                new ObjectParameter("Start", typeof(int));
-    
-            var lengthParameter = length.HasValue ?
-                new ObjectParameter("Length", length) :
-                new ObjectParameter("Length", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<UsuarioGetAll_Result>("UsuarioGetAll", startParameter, lengthParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<UsuarioGetAll_Result>("UsuarioGetAll");
         }
     }
 }
