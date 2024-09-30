@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace PL.Controllers
 {
+	[Authorize]
 	public class UsuarioController : Controller
 	{
 		// GET: Usuario

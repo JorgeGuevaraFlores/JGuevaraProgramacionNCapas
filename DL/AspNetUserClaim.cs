@@ -12,15 +12,12 @@ namespace DL
     using System;
     using System.Collections.Generic;
     
-    public partial class Usuario
+    public partial class AspNetUserClaim
     {
-        public int IdUsuario { get; set; }
-        public string Nombre { get; set; }
-        public string ApellidoPaterno { get; set; }
-        public string ApellidoMaterno { get; set; }
-        public Nullable<System.DateTime> FechaNacimiento { get; set; }
-        public Nullable<bool> Status { get; set; }
-        public string IdAspNetUser { get; set; }
+        public int Id { get; set; }
+        public string UserId { get; set; }
+        public string ClaimType { get; set; }
+        public string ClaimValue { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
     }
