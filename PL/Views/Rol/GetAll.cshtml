@@ -1,0 +1,26 @@
+﻿@using Microsoft.AspNet.Identity.EntityFramework
+@model IEnumerable<IdentityRole>
+
+<h2>Roles</h2>
+<a href="@Url.Action("Form")">Create New Role</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var role in Model)
+        {
+            <tr>
+                <td>@role.Name</td>
+                <td>
+                    @Html.ActionLink("Edit", "Form", new { id = role.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = role.Id })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

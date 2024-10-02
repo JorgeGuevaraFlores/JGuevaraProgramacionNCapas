@@ -8,13 +8,18 @@ using System.Web.Mvc;
 
 namespace PL.Controllers
 {
-	[Authorize]
+	[Authorize(Roles = "Administrador")]
 	public class UsuarioController : Controller
 	{
 		// GET: Usuario
 		[HttpGet]
 		public ActionResult GetAll()
 		{
+			if (!User.IsInRole("Administrador"))
+			{
+				return View("AccessDenied"); // Redirigir a la vista de acceso denegado
+			}
+
 			return View();
 		}
 

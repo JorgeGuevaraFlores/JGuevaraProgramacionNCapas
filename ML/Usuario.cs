@@ -15,6 +15,8 @@ namespace ML
         public bool Status { get; set; }
         public string FechaNacimiento { get; set; }
 
+        public string IdAspNetUser { get; set; }
+
         public List<object> Usuarios { get; set; }
     }
 }

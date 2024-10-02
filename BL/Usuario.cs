@@ -9,43 +9,26 @@ namespace BL
 {
 	public class Usuario
 	{
-		public static ML.Result GetAllEF()
+		public static ML.Result Add(ML.Usuario usuario)
 		{
 			ML.Result result = new ML.Result();
 			try
 			{
-				using (DL.JGuevaraProgramacionNCapasEntities context = new DL.JGuevaraProgramacionNCapasEntities())
+				using(DL.JGuevaraProgramacionNCapasEntities context = new DL.JGuevaraProgramacionNCapasEntities())
 				{
-					var query = context.UsuarioGetAll().ToList();
+					int filasAfectadas = context.UsuarioAdd(usuario.Nombre, usuario.ApellidoPaterno, usuario.ApellidoMaterno, Convert.ToDateTime(usuario.FechaNacimiento), usuario.IdAspNetUser);
 
-					if (query != null)
+					if(filasAfectadas > 0)
 					{
-						result.Objects = new List<object>();
-
-						foreach (DL.UsuarioGetAll_Result item in query)
-						{
-							ML.Usuario usuario = new ML.Usuario();
-							usuario.IdUsuario = item.IdUsuario;
-							usuario.Nombre = item.Nombre;
-							usuario.ApellidoPaterno = item.ApellidoPaterno;
-							usuario.ApellidoMaterno = item.ApellidoMaterno;
-							usuario.FechaNacimiento = item.FechaNacimiento.Value.ToString("dd/MM/yyyy");
-							usuario.Status = item.Status.Value;
-
-							result.Objects.Add(usuario);
-						}
-
 						result.Correct = true;
-					}
-					else
+					} else
 					{
 						result.Correct = false;
-						result.ErrorMessage = "No hay registros";
+						result.ErrorMessage = "Error al insertar Usuario";
 					}
 				}
-
-			}
-			catch (Exception ex)
+				
+			} catch (Exception ex)
 			{
 				result.Correct = false;
 				result.ErrorMessage = ex.Message;
@@ -54,7 +37,6 @@ namespace BL
 
 			return result;
 		}
-
 		public static ML.Result GetAllLINQ(ML.DataTablePagination pagination)
 		{
 			ML.Result result = new ML.Result();

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Owin.Security;
@@ -21,15 +23,18 @@ namespace PL.Controllers
 	{
 		private ApplicationSignInManager _signInManager;
 		private ApplicationUserManager _userManager;
+		private RoleManager<IdentityRole> _roleManager;
+
 
 		public AccountController()
 		{
 		}
 
-		public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+		public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, RoleManager<IdentityRole> roleManager)
 		{
 			UserManager = userManager;
 			SignInManager = signInManager;
+			RoleManager = roleManager;
 		}
 
 		public ApplicationSignInManager SignInManager
@@ -53,6 +58,18 @@ namespace PL.Controllers
 			private set
 			{
 				_userManager = value;
+			}
+		}
+
+		public RoleManager<IdentityRole> RoleManager // Agrega esta propiedad
+		{
+			get
+			{
+				return _roleManager ?? HttpContext.GetOwinContext()?.Get<RoleManager<IdentityRole>>();
+			}
+			private set
+			{
+				_roleManager = value;
 			}
 		}
 
@@ -175,7 +192,20 @@ namespace PL.Controllers
 		[AllowAnonymous]
 		public ActionResult Register()
 		{
-			return View();
+			RegisterViewModel model = new RegisterViewModel();
+			model.Rol = new ML.AspNetRoles();
+			model.Rol.Roles = new List<object>();
+			List<IdentityRole> roles = RoleManager.Roles.ToList();
+			foreach (var role in roles)
+			{
+				ML.AspNetRoles rol = new ML.AspNetRoles();
+				rol.Id = role.Id;
+				rol.Name = role.Name;
+				model.Rol.Roles.Add(rol);
+			}
+
+			model.Usuario = new ML.Usuario();
+			return View(model);
 		}
 
 		//
@@ -191,6 +221,15 @@ namespace PL.Controllers
 				var result = await UserManager.CreateAsync(user, model.Password);
 				if (result.Succeeded)
 				{
+					ApplicationUserManager UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+					IdentityResult identityResult = UserManager.AddToRole(user.Id, model.Rol.Name);
+
+					model.Usuario.IdAspNetUser = user.Id;
+					DateTime fechaNacimiento = DateTime.ParseExact(model.Usuario.FechaNacimiento, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+					model.Usuario.FechaNacimiento = fechaNacimiento.ToString("yyyy-MM-dd");
+
+					ML.Result resultUsuario = BL.Usuario.Add(model.Usuario);
+
 					await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
 					// For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
